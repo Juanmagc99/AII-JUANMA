@@ -102,6 +102,7 @@ def buscar_contenido():
                 lb.insert(END,r['titulo'])
                 lb.insert(END,r['autor'])
                 lb.insert(END,r['link'])
+                lb.insert(END,r['fecha'])
                 lb.insert(END,'')
 
     

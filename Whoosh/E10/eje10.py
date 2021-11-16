@@ -99,6 +99,7 @@ def busqueda_titulo():
                 lb.insert(END, r['titulo_og'])
                 print(r['directores'])
                 lb.insert(END, r['directores'].replace('_', ' '))
+                lb.insert(END, r['estreno'])
                 lb.insert(END, '==============================================================')
 
     v = Toplevel()
