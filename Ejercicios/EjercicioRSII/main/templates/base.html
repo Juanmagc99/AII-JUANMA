@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8">
+        <title>RS II</title>
+    </head>
+    <body>
+        <ul>
+            <li><a href="/">Inicio</a></li>
+            <li><a href="/populate">Poblar la base de datos</a></li>
+            <li><a href="/loadRS">Cargar el sistema de recomendacion</a></li>
+            <li><a href="/mostListenedArtists">Artistas escuchados</a></li>
+            <li><a href="/mostFrequentTags">Etiquetas más frecuentes</a></li>
+            <li><a href="/recommendedArtists">Artistas recomendados</a></li>
+        </ul>
+        <h1>{% block title %}{% endblock %}</h1>
+        <section>
+            {% block content %}{% endblock %}
+        </section>
+    </body>
+</html>
