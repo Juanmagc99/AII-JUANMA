@@ -5,7 +5,7 @@ from principal import views
 urlpatterns = [
     path('', views.inicio),
     path('populate/', views.populate),
-    path('whooshLoad/', views.whooshLoad),
-    path('searchJobTitle/', views.searchByTitle)
-
+    path('listJobs/', views.listJobs),
+    path('searchByMultipleField/', views.searchByMultipleField),
+    path('searchBySkills/', views.searchBySkills)
 ]

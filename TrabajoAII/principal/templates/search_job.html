@@ -12,7 +12,8 @@
 <body>
     <h1>Trabajo AII, Juan Manuel García Criado</h1>
     {% include 'header.html' %}
-    <form id='form' method='get' action=''>
+    <form id='form' method='post' action=''>
+        {% csrf_token %}
         {{form}}
     <p><input type='submit' value='Confirm'/></p>
 </body>

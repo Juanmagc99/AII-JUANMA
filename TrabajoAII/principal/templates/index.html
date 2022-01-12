@@ -9,5 +9,35 @@
 <body>
     <h1>Trabajo AII, Juan Manuel García Criado</h1>
     {% include 'header.html' %}
+
+    {% if jobs %}
+        <h2>There are {{ jobs|length }} jobs registered:</h2> 
+        <br>
+    {% for j in jobs %}
+        <td><b>Title:</b> {{ j.title }} </td>
+        <br>
+        <td><b>Location:</b> {{ j.location }} </td>
+        <br>
+        <td><b>Salary:</b> {{ j.salary }} </td>
+        <br>
+        <td><b><a href="{{ j.url }}">More Info</a></td>
+        <hr>
+    {% endfor %}
+    {% endif %}
+
+    {% if jobs_whoosh %}
+        <h2>There are {{ jobs_whoosh|length }} jobs that satisfied your search:</h2> 
+        <br>
+    {% for j in jobs_whoosh %}
+        <td><b>Title:</b> {{ j.0 }} </td>
+        <br>
+        <td><b>Location:</b> {{ j.1 }} </td>
+        <br>
+        <td><b>Salary:</b> {{ j.2 }} </td>
+        <br>
+        <td><b><a href="{{ j.3 }}">More Info</a></td>
+        <hr>
+    {% endfor %}
+    {% endif %}
 </body>
 </html>
