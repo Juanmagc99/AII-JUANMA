@@ -3,10 +3,10 @@ from bs4 import BeautifulSoup
 import datetime
 import urllib.request
 import re, os, shutil
-from principal.models import Job, Tag
+from principal.models import Job, Tag, Rating
 from whoosh import query
 from whoosh.index import create_in,open_dir
-from whoosh.fields import DATETIME, Schema, TEXT, KEYWORD
+from whoosh.fields import Schema, TEXT, KEYWORD
 from whoosh.qparser import QueryParser
 
 def populate():
@@ -28,7 +28,7 @@ def populate():
     num = 0
     d = {}
     d_num = 0
-    for i in range(1,):
+    for i in range(1,25):
         f1 = urllib.request.urlopen("https://www.reed.co.uk/jobs/it-jobs?pageno="+str(i)+"&sortby=DisplayDate")
         #f1 = urllib.request.urlopen("https://www.reed.co.uk/jobs?pageno="+str(i)+"&multipleparentsectorids=52%2C68%2C12%2C5%2C2&sortby=DisplayDate")
         s1 = BeautifulSoup(f1, 'lxml')
@@ -39,7 +39,8 @@ def populate():
             s2 = BeautifulSoup(f2, 'lxml')
             skills = s2.find('ul', attrs={'class':'skills-list'})
             banner = s2.find('img', attrs={'id':'bannerImageJob'})
-            if(skills != None and banner == None):
+            banner2 = s2.find('img', attrs={'class':'banner-mask'})
+            if(skills != None and banner == None and banner2 == None):
                 print(url)
                 num+=1
                 
@@ -70,6 +71,7 @@ def populate():
                     if( s.text not in d.values()):
                         tag = Tag(value = s.text)
                         tag.save()
+                        Rating(job=job,tag=tag,included=1).save()
                         d[d_num] = s.text
                         job.tags.add(tag)
                         d_num += 1
@@ -77,6 +79,7 @@ def populate():
                     else:
                         job.tags.add(Tag.objects.get(value = s.text))
                         tags_str += str(s.text) + ','
+                        Rating(job=job,tag=tag,included=1).save()
 
                 tags_str[0:-1].replace(' / ',',')
                 if(description):

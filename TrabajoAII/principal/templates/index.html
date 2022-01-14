@@ -4,40 +4,65 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio</title>
+    <title>TRABAJO AII</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
-    <h1>Trabajo AII, Juan Manuel García Criado</h1>
+    <div>
     {% include 'header.html' %}
 
     {% if jobs %}
-        <h2>There are {{ jobs|length }} jobs registered:</h2> 
+        <h3>There are {{ jobs|length }} jobs registered:</h2> 
         <br>
-    {% for j in jobs %}
-        <td><b>Title:</b> {{ j.title }} </td>
-        <br>
-        <td><b>Location:</b> {{ j.location }} </td>
-        <br>
-        <td><b>Salary:</b> {{ j.salary }} </td>
-        <br>
-        <td><b><a href="{{ j.url }}">More Info</a></td>
-        <hr>
-    {% endfor %}
+        <div class="row">
+            {% for j in jobs %}
+            <div class="col-sm-3">
+                <div class="card text-white bg-secondary mb-3" style="width: 18rem;">
+                    <div class="card-body">
+                    <h5 class="card-title">{{ j.title }}</h5>
+                    <h6 class="card-subtitle mb-2" style="color: white;">{{ j.location }} </h6>
+                    <p class="card-text">{{ j.salary }} </p>
+                    <a href="{{ j.url }}" class="btn btn-primary">Mas info</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
     {% endif %}
 
     {% if jobs_whoosh %}
-        <h2>There are {{ jobs_whoosh|length }} jobs that satisfied your search:</h2> 
+        <h3>There are {{ jobs_whoosh|length }} jobs that satisfied your search:</h2> 
         <br>
-    {% for j in jobs_whoosh %}
-        <td><b>Title:</b> {{ j.0 }} </td>
-        <br>
-        <td><b>Location:</b> {{ j.1 }} </td>
-        <br>
-        <td><b>Salary:</b> {{ j.2 }} </td>
-        <br>
-        <td><b><a href="{{ j.3 }}">More Info</a></td>
-        <hr>
-    {% endfor %}
+        <div class="row">
+        {% for j in jobs_whoosh %}
+            <div class="col-sm-3">
+                <div class="card text-white bg-secondary mb-3" style="width: 18rem;">
+                    <div class="card-body">
+                    <h5 class="card-title">{{ j.0 }}</h5>
+                    <h6 class="card-subtitle mb-2" style="color: white;">{{ j.1 }}</h6>
+                    <p class="card-text">{{ j.2 }} </p>
+                    <a href="{{ j.3 }}" class="btn btn-primary">Mas info</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
     {% endif %}
+    </div>
+
+    {% if items %}
+        {% for j, s in items %}
+      
+           <h6>{{j.title}}</h6>
+        
+         
+        
+        {% endfor %}
+    {% endif %}
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
 </html>

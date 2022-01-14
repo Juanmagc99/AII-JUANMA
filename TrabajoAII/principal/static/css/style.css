@@ -1,0 +1,4 @@
+.scrollbar-y{
+    overflow-y: scroll !important;
+    max-height:380px !important;
+ }

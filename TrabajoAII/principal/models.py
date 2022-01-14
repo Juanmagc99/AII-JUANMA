@@ -28,4 +28,4 @@ class Rating(models.Model):
     tag = models.ForeignKey(Tag, on_delete=models.DO_NOTHING)
     included = models.PositiveSmallIntegerField(validators=[MinValueValidator(0), MaxValueValidator(1)])
     def __str__(self):
-        return str(self.rating)
+        return str(self.job.id + self.tag.id)
