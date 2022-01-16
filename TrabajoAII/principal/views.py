@@ -1,16 +1,16 @@
 from django.shortcuts import render, get_object_or_404
-from principal.models import Job,Tag,Rating
+from principal.models import Job,Tag
 import shelve
 from principal import populateDB
 from principal.form import JobMultifieldForm,JobSkillsForm, JobSimilar
 from principal.recommendations import  transformPrefs, getRecommendations, topMatches
 from whoosh import query
 import re, os, shutil
-from whoosh.qparser import QueryParser, OrGroup, MultifieldParser
+from whoosh.qparser import QueryParser, OrGroup, MultifieldParser, AndGroup
 from whoosh.index import create_in,open_dir
 
 # Create your views here.
-
+'''
 def create_dic(request):
     Prefs={}
     shelf = shelve.open("dataRS.dat")
@@ -19,12 +19,13 @@ def create_dic(request):
         job = int(ra.job.id)
         tag = int(ra.tag.id)
         rating = int(ra.included)
-        Prefs.setdefault(job, {})
-        Prefs[job][tag] = rating
+        Prefs.setdefault(tag, {})
+        Prefs[tag][job] = rating
     shelf['Prefs']=Prefs
     shelf['ItemsPrefs']=transformPrefs(Prefs)
     shelf.close()
     return render(request,'index.html')
+'''
 
 def inicio(request):
     return render(request,'index.html')
@@ -45,10 +46,8 @@ def searchByMultipleField(request):
             keywords = form.cleaned_data['keywords']
             avalible = form.cleaned_data['salary_avalible']
             location = form.cleaned_data['location']
-            print(avalible)
             ix = open_dir('Index')
             with ix.searcher() as searcher:
-                print(location)
                 query_loc = QueryParser('location', ix.schema, group=OrGroup).parse(str(location))
                 query_key = MultifieldParser(["title","description"], ix.schema, group=OrGroup).parse(str(keywords))
                 results = searcher.search(query_key, limit=20)
@@ -76,6 +75,7 @@ def searchBySkills(request):
                 skills_str += (' ' + s['value'])
             skills_str.replace(',', '')
             with ix.searcher() as searcher:
+                print(skills_str)
                 query = QueryParser('tags', ix.schema,group=OrGroup).parse(skills_str)
                 results = searcher.search(query, limit=20)
                 l = []
@@ -86,26 +86,28 @@ def searchBySkills(request):
     form = JobSkillsForm()
     return render(request,'search_job.html', {'form':form})
 
-
+'''
 def recommendedJob(request):
-    film = None
     if request.method=='POST':
         form = JobSimilar(request.POST)
         if form.is_valid():
-            idFilm = form.cleaned_data['id']
-            film = get_object_or_404(Job, pk=idFilm)
+            idTag = form.cleaned_data['id']
+            tag = get_object_or_404(Tag, pk=idTag)
             shelf = shelve.open("dataRS.dat")
-            Prefs = shelf['ItemsPrefs']
+            Prefs = shelf['Prefs']
+            print(Prefs)
             shelf.close()
-            recommended = topMatches(Prefs, int(idFilm),n=3)
-            films = []
-            similar = []
+            rankings = getRecommendations(Prefs,int(idTag))
+            recommended = rankings[:2]
+            jobs = []
+            scores = []
             for re in recommended:
-                films.append(Job.objects.get(pk=re[1]))
-                similar.append(re[0])
-            items= zip(films,similar)
+                jobs.append(Job.objects.get(pk=re[1]))
+                scores.append(re[0])
+            items= zip(films,scores)
             return render(request,'index.html', {'items': items})
     form = JobSimilar()
     print(Tag.objects.all().values())
     print(Job.objects.all().values())
     return render(request,'search_job.html', {'form': form})
+'''

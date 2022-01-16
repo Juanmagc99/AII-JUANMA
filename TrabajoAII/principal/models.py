@@ -22,10 +22,3 @@ class Job(models.Model):
 
     def __str__(self):
         return self.title + "/"  + self.location + "/" + self.salary
-
-class Rating(models.Model):
-    job = models.ForeignKey(Job, on_delete=models.DO_NOTHING)
-    tag = models.ForeignKey(Tag, on_delete=models.DO_NOTHING)
-    included = models.PositiveSmallIntegerField(validators=[MinValueValidator(0), MaxValueValidator(1)])
-    def __str__(self):
-        return str(self.job.id + self.tag.id)

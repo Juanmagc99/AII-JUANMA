@@ -14,7 +14,7 @@ class JobMultifieldForm(forms.Form):
     
     salary_avalible = forms.BooleanField(label='Salary avalible', 
     required=False,
-    widget=forms.CheckboxSelectMultiple(attrs={'class':'scrollbar-y'}))
+    widget=forms.CheckboxInput(attrs={'class':'form-control'}))
 
 class JobSkillsForm(forms.Form):
     skills = forms.ModelMultipleChoiceField(label='Skills', 

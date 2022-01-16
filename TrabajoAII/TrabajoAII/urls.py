@@ -8,6 +8,4 @@ urlpatterns = [
     path('listJobs/', views.listJobs),
     path('searchByMultipleField/', views.searchByMultipleField),
     path('searchBySkills/', views.searchBySkills),
-    path('createDict/', views.create_dic),
-    path('similarJob/', views.recommendedJob)
 ]
